@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#090a12">
-  <meta name="description" content="Hanzo es tu bot multifuncional de Discord. Moderación, entretenimiento, música, tickets y herramientas para tu comunidad.">
+  <meta name="description" content="Hanzo es tu bot multifuncional de Discord. Moderación, entretenimiento, música, tickets y herramientas para tu comunidad. Consulta información pública y enlaces oficiales.">
   <meta property="og:title" content="Hanzo — Your Discord, Better.">
   <meta property="og:description" content="Todo lo que tu comunidad necesita, en un solo bot.">
   <meta property="og:type" content="website">
@@ -395,6 +395,34 @@
     @keyframes float-in { from { opacity: 0; transform: translateY(20px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
     @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
+
+    /* Live integrations: public Discord invite + Top.gg widget */
+    .live-community {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 1000px; margin: 0 auto;
+    }
+    .live-card {
+      min-width: 0; padding: 25px; border: 1px solid var(--line-strong); border-radius: 19px;
+      background: linear-gradient(145deg, rgba(23,27,44,.96), rgba(15,18,30,.96));
+    }
+    .live-card-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px; }
+    .live-card-head h3 { font-family:"Space Grotesk",sans-serif; font-size:16px; }
+    .live-state { display:inline-flex; align-items:center; gap:7px; color:var(--green); font-size:9px; font-weight:900; letter-spacing:.8px; text-transform:uppercase; }
+    .live-state::before { content:""; width:7px; height:7px; border-radius:50%; background:currentColor; box-shadow:0 0 12px currentColor; }
+    .live-state.loading { color:#e7c16b; }
+    .live-state.error { color:#ff8a96; }
+    .live-numbers { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .live-number { padding:17px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.025); }
+    .live-number strong { display:block; font-family:"Space Grotesk",sans-serif; font-size:27px; letter-spacing:-1px; }
+    .live-number span { color:var(--muted); font-size:9px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; }
+    .live-server-name { margin-top:15px; color:#cbd0df; font-size:11px; font-weight:700; }
+    .live-updated { margin-top:7px; color:var(--muted-2); font-size:9px; }
+    .live-card-note { margin-top:15px; color:var(--muted); font-size:10px; line-height:1.8; }
+    .topgg-widget-wrap { min-height:145px; display:grid; place-items:center; padding:8px; border-radius:13px; background:rgba(255,255,255,.025); border:1px solid var(--line); }
+    .topgg-widget-wrap img { width:min(100%, 420px); height:auto; }
+    .live-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:17px; }
+    .api-error { color:var(--muted); font-size:11px; line-height:1.8; }
+    @media(max-width:760px) { .live-community { grid-template-columns:1fr; } }
+
     /* Responsive */
     @media (max-width: 1000px) {
       .nav-links { gap: 17px; }
@@ -498,6 +526,7 @@
         <li><a href="#commands">Comandos</a></li>
         <li><a href="#modules">Servicios</a></li>
         <li><a href="#premium">Premium</a></li>
+        <li><a href="#live-data">Datos</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
 
@@ -524,7 +553,7 @@
           </p>
           <div class="hero-buttons">
             <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1210651462753845299&scope=bot&permissions=1099511627775" target="_blank" rel="noopener noreferrer">Añadir a Discord <span>↗</span></a>
-            <a class="btn btn-secondary" href="https://dsc.gg/hanzo" target="_blank" rel="noopener noreferrer">Visitar servidor de soporte <span>→</span></a>
+            <a class="btn btn-secondary" href="https://discord.gg/pDvxtzkPbA" target="_blank" rel="noopener noreferrer">Visitar servidor de soporte <span>→</span></a>
           </div>
           <div class="hero-trust">
             <span><b class="trust-check">✓</b> Multifuncional</span>
@@ -676,7 +705,7 @@
             <div class="module-row"><span class="module-row-icon">▤</span><span><strong>Organización</strong><span>Tickets, conteo y utilidades comunitarias.</span></span></div>
           </div>
           <div style="margin-top:25px">
-            <a class="btn btn-secondary" href="https://dsc.gg/hanzo" target="_blank" rel="noopener noreferrer">Conocer la comunidad ↗</a>
+            <a class="btn btn-secondary" href="https://discord.gg/pDvxtzkPbA" target="_blank" rel="noopener noreferrer">Conocer la comunidad ↗</a>
           </div>
         </div>
 
@@ -739,7 +768,7 @@
               <li><span>✦</span> Acceso a funcionalidades adicionales disponibles</li>
               <li><span>✦</span> Más posibilidades para tu experiencia con Hanzo</li>
             </ul>
-            <a class="btn btn-primary" href="https://dsc.gg/hanzo" target="_blank" rel="noopener noreferrer">Más información en Discord ↗</a>
+            <a class="btn btn-primary" href="https://discord.gg/pDvxtzkPbA" target="_blank" rel="noopener noreferrer">Más información en Discord ↗</a>
           </div>
           <div class="premium-art" aria-hidden="true">
             <div class="premium-orbit"><div class="premium-orbit-inner">✦</div></div>
@@ -757,8 +786,65 @@
           <p>Añade Hanzo a tu servidor o únete a la comunidad de soporte para conocer más sobre el bot, resolver dudas y estar al tanto del proyecto.</p>
           <div class="hero-buttons" style="justify-content:center">
             <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1210651462753845299&scope=bot&permissions=1099511627775" target="_blank" rel="noopener noreferrer">Invitar Hanzo ↗</a>
-            <a class="btn btn-secondary" href="https://dsc.gg/hanzo" target="_blank" rel="noopener noreferrer">Hanzo's Support</a>
+            <a class="btn btn-secondary" href="https://discord.gg/pDvxtzkPbA" target="_blank" rel="noopener noreferrer">Hanzo's Support</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- LIVE PUBLIC DATA -->
+    <section class="section" id="live-data">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">LIVE COMMUNITY & DIRECTORY</span>
+          <h2 class="section-title">Real information.<br><span class="gradient-text">No made-up numbers.</span></h2>
+          <p class="section-copy">Consulta información pública de la comunidad de soporte y el perfil de Hanzo en Top.gg. Los datos de Discord son aproximados y dependen de la disponibilidad de su API.</p>
+        </div>
+
+        <div class="live-community">
+          <article class="live-card reveal">
+            <div class="live-card-head">
+              <h3>Hanzo's Support</h3>
+              <span class="live-state loading" id="discordApiState">Conectando</span>
+            </div>
+            <div class="live-numbers">
+              <div class="live-number">
+                <strong id="discordMemberCount">—</strong>
+                <span>Miembros aprox.</span>
+              </div>
+              <div class="live-number">
+                <strong id="discordOnlineCount">—</strong>
+                <span>En línea aprox.</span>
+              </div>
+            </div>
+            <div class="live-server-name" id="discordGuildName">Consultando información pública de Discord…</div>
+            <div class="live-updated" id="discordUpdated">Los datos se cargarán automáticamente.</div>
+            <p class="live-card-note" id="discordApiNote">Esta tarjeta consulta el endpoint público de invitaciones de Discord con recuentos aproximados. No requiere token ni almacena datos personales.</p>
+            <div class="live-actions">
+              <a class="btn btn-secondary btn-small" href="https://discord.gg/pDvxtzkPbA" target="_blank" rel="noopener noreferrer">Abrir comunidad ↗</a>
+              <button class="btn btn-ghost btn-small" id="refreshDiscordData" type="button">↻ Actualizar</button>
+            </div>
+          </article>
+
+          <article class="live-card reveal reveal-delay-1">
+            <div class="live-card-head">
+              <h3>Hanzo on Top.gg</h3>
+              <span class="live-state">Perfil público</span>
+            </div>
+            <div class="topgg-widget-wrap">
+              <img
+                src="https://top.gg/api/widget/1210651462753845299.svg"
+                alt="Widget público de Hanzo en Top.gg"
+                loading="lazy"
+                onerror="this.hidden=true;document.getElementById('topggWidgetFallback').hidden=false;">
+              <p class="api-error" id="topggWidgetFallback" hidden>No se pudo cargar el widget. Puedes consultar el perfil directamente en Top.gg.</p>
+            </div>
+            <p class="live-card-note">Widget externo de Top.gg. La disponibilidad y los datos mostrados dependen de ese servicio.</p>
+            <div class="live-actions">
+              <a class="btn btn-primary btn-small" href="https://top.gg/bot/1210651462753845299" target="_blank" rel="noopener noreferrer">Ver perfil y votar ↗</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -838,12 +924,13 @@
             <li><a href="#commands">Comandos</a></li>
             <li><a href="#modules">Servicios</a></li>
             <li><a href="#premium">Premium</a></li>
+            <li><a href="#live-data">Datos públicos</a></li>
           </ul>
         </div>
         <div class="footer-column">
           <h4>Community</h4>
           <ul>
-            <li><a href="https://dsc.gg/hanzo" target="_blank" rel="noopener noreferrer">Servidor de soporte ↗</a></li>
+            <li><a href="https://discord.gg/pDvxtzkPbA" target="_blank" rel="noopener noreferrer">Servidor de soporte ↗</a></li>
             <li><a href="https://top.gg/bot/1210651462753845299" target="_blank" rel="noopener noreferrer">Top.gg ↗</a></li>
             <li><a href="#faq">Preguntas frecuentes</a></li>
           </ul>
@@ -1043,6 +1130,104 @@
       window.addEventListener("hashchange", () => {
         if (menuToggle) menuToggle.checked = false;
       });
+
+
+      // Public Discord invite API: approximate counts for the official support server.
+      // This is community data, NOT the number of servers where the bot is installed.
+      const DISCORD_INVITE_CODE = "pDvxtzkPbA";
+      const discordState = document.getElementById("discordApiState");
+      const discordMembers = document.getElementById("discordMemberCount");
+      const discordOnline = document.getElementById("discordOnlineCount");
+      const discordGuildName = document.getElementById("discordGuildName");
+      const discordUpdated = document.getElementById("discordUpdated");
+      const discordNote = document.getElementById("discordApiNote");
+      const refreshDiscordButton = document.getElementById("refreshDiscordData");
+
+      const numberFormat = new Intl.NumberFormat("es-ES");
+
+      async function loadDiscordCommunity(force = false) {
+        if (!discordState || !discordMembers || !discordOnline) return;
+
+        const cacheKey = "hanzo_discord_invite_data_v1";
+        const cacheDuration = 5 * 60 * 1000;
+
+        if (!force) {
+          try {
+            const cached = JSON.parse(sessionStorage.getItem(cacheKey) || "null");
+            if (cached && Date.now() - cached.savedAt < cacheDuration) {
+              renderDiscordCommunity(cached.data, cached.savedAt, true);
+              return;
+            }
+          } catch (_) {
+            // Ignore unavailable or invalid browser storage and continue with network request.
+          }
+        }
+
+        discordState.textContent = "Conectando";
+        discordState.className = "live-state loading";
+        if (refreshDiscordButton) refreshDiscordButton.disabled = true;
+
+        try {
+          const endpoint = `https://discord.com/api/v10/invites/${encodeURIComponent(DISCORD_INVITE_CODE)}?with_counts=true`;
+          const response = await fetch(endpoint, {
+            method: "GET",
+            headers: { "Accept": "application/json" },
+            cache: "no-store"
+          });
+
+          if (!response.ok) throw new Error(`Discord API returned ${response.status}`);
+
+          const data = await response.json();
+          if (!data.guild) throw new Error("The invite did not return a guild.");
+
+          const savedAt = Date.now();
+          renderDiscordCommunity(data, savedAt, false);
+
+          try {
+            sessionStorage.setItem(cacheKey, JSON.stringify({ data, savedAt }));
+          } catch (_) {
+            // Storage is optional; the live data has already been rendered.
+          }
+        } catch (error) {
+          discordState.textContent = "No disponible";
+          discordState.className = "live-state error";
+          discordMembers.textContent = "—";
+          discordOnline.textContent = "—";
+          if (discordGuildName) discordGuildName.textContent = "No se pudo consultar la comunidad ahora mismo.";
+          if (discordUpdated) discordUpdated.textContent = "Puedes volver a intentarlo con el botón Actualizar.";
+          if (discordNote) {
+            discordNote.textContent = "Discord no ha permitido completar la consulta en este momento (por ejemplo, por límites de uso, invitación no disponible o restricciones de red). La web sigue funcionando con normalidad.";
+          }
+          console.warn("Hanzo public Discord invite lookup failed:", error);
+        } finally {
+          if (refreshDiscordButton) refreshDiscordButton.disabled = false;
+        }
+      }
+
+      function renderDiscordCommunity(data, savedAt, fromCache) {
+        const members = Number(data.approximate_member_count);
+        const online = Number(data.approximate_presence_count);
+
+        discordMembers.textContent = Number.isFinite(members) ? numberFormat.format(members) : "—";
+        discordOnline.textContent = Number.isFinite(online) ? numberFormat.format(online) : "—";
+        if (discordGuildName) discordGuildName.textContent = data.guild?.name || "Hanzo's Support";
+        if (discordState) {
+          discordState.textContent = fromCache ? "Datos recientes" : "Conectado";
+          discordState.className = "live-state";
+        }
+        if (discordUpdated) {
+          const date = new Date(savedAt);
+          discordUpdated.textContent = `${fromCache ? "Caché de esta sesión · " : "Actualizado · "}${date.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`;
+        }
+        if (discordNote) {
+          discordNote.textContent = "Recuentos aproximados proporcionados por Discord para el servidor de soporte. No representan el total de servidores donde está añadido el bot.";
+        }
+      }
+
+      if (refreshDiscordButton) {
+        refreshDiscordButton.addEventListener("click", () => loadDiscordCommunity(true));
+      }
+      loadDiscordCommunity();
 
       // External links open in a new tab; all have rel=noopener in markup.
       // No live bot status or server statistics are fabricated by this page.
