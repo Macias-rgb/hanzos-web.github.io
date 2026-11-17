@@ -1,188 +1,1433 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="=X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hanzo Web</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#090b12">
+    <meta name="description" content="Hanzo es un bot multifuncional de Discord. Moderación, entretenimiento, música, tickets y mucho más para tu comunidad.">
+
+    <title>Hanzo — Your Discord, Better.</title>
+
     <link rel="icon" type="image/gif" href="images/foto.gif">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==============================
+           HANZO — MODERN WEBSITE
+        ============================== */
+
+        :root {
+            --bg: #090b12;
+            --bg-secondary: #0e111b;
+            --surface: #131725;
+            --surface-hover: #191f30;
+            --primary: #8b72ff;
+            --primary-light: #a995ff;
+            --accent: #46e6a5;
+            --text: #f5f5fa;
+            --muted: #9299ac;
+            --border: rgba(255,255,255,0.08);
+            --radius: 20px;
+            --container: 1160px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        body::selection {
+            background: var(--primary);
+            color: white;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        .container {
+            width: min(var(--container), calc(100% - 48px));
+            margin-inline: auto;
+        }
+
+        .section {
+            padding: 110px 0;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 17px;
+        }
+
+        .section-label::before {
+            content: "";
+            width: 20px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 5vw, 48px);
+            line-height: 1.15;
+            letter-spacing: -2px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .section-description {
+            color: var(--muted);
+            font-size: 15px;
+            max-width: 620px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(110deg, #a995ff, #46e6a5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* ==============================
+           NAVIGATION
+        ============================== */
+
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            background: rgba(9,11,18,0.55);
+            backdrop-filter: blur(18px);
+        }
+
+        .navbar {
+            height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 21px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, var(--primary), #5944ca);
+            display: grid;
+            place-items: center;
+            box-shadow: 0 5px 25px rgba(139,114,255,0.25);
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo span {
+            color: var(--primary-light);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #b6bbca;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color .25s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        .menu-button {
+            display: none;
+            cursor: pointer;
+            font-size: 26px;
+            color: white;
+        }
+
+        /* ==============================
+           BUTTONS
+        ============================== */
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 13px 23px;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 800;
+            transition: .25s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(110deg, #927aff, #7158e9);
+            color: white;
+            box-shadow: 0 8px 30px rgba(139,114,255,.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(139,114,255,.35);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,.055);
+            border-color: var(--border);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,.11);
+            transform: translateY(-3px);
+        }
+
+        /* ==============================
+           HERO
+        ============================== */
+
+        .hero {
+            position: relative;
+            min-height: 760px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            isolation: isolate;
+            background:
+                linear-gradient(90deg, rgba(9,11,18,.97), rgba(9,11,18,.78)),
+                linear-gradient(0deg, var(--bg), transparent 45%),
+                url("images/banner.gif") center/cover no-repeat;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 550px;
+            height: 550px;
+            background: rgba(117,87,255,.18);
+            filter: blur(130px);
+            border-radius: 50%;
+            top: 10%;
+            right: -10%;
+            z-index: -1;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: rgba(70,230,165,.09);
+            filter: blur(120px);
+            bottom: -15%;
+            left: 10%;
+            z-index: -1;
+        }
+
+        .hero-content {
+            padding-top: 110px;
+            max-width: 790px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 14px;
+            background: rgba(139,114,255,.10);
+            border: 1px solid rgba(139,114,255,.25);
+            color: #c0b3ff;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 28px;
+        }
+
+        .hero-badge span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent);
+        }
+
+        .hero h1 {
+            font-size: clamp(52px, 8vw, 88px);
+            line-height: 1.02;
+            font-weight: 900;
+            letter-spacing: -5px;
+            margin-bottom: 25px;
+        }
+
+        .hero-description {
+            color: #a8aec0;
+            font-size: 16px;
+            max-width: 580px;
+            margin-bottom: 35px;
+            line-height: 1.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 35px;
+            margin-top: 65px;
+        }
+
+        .hero-stat strong {
+            display: block;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .hero-stat span {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ==============================
+           FEATURES
+        ============================== */
+
+        .features {
+            background: var(--bg);
+            position: relative;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .section-heading .section-description {
+            margin-inline: auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            padding: 32px;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #151a29, #10131e);
+            border: 1px solid var(--border);
+            transition: .3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(139,114,255,.10);
+            filter: blur(45px);
+            top: -60px;
+            right: -40px;
+            opacity: 0;
+            transition: .3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(139,114,255,.4);
+            background: var(--surface-hover);
+        }
+
+        .feature-card:hover::after {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 58px;
+            height: 58px;
+            padding: 10px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: rgba(139,114,255,.12);
+            margin-bottom: 24px;
+        }
+
+        .feature-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .feature-card h3 {
+            font-size: 19px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .command {
+            display: inline-block;
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 800;
+            margin-top: 20px;
+            padding: 5px 10px;
+            background: rgba(70,230,165,.08);
+            border-radius: 6px;
+        }
+
+        /* ==============================
+           SERVICES
+        ============================== */
+
+        .services-section {
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .services-section::before {
+            content: "";
+            position: absolute;
+            top: -200px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: rgba(139,114,255,.09);
+            filter: blur(100px);
+            pointer-events: none;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .service-card {
+            position: relative;
+            min-height: 235px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: rgba(255,255,255,.025);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: .3s ease;
+            text-align: center;
+        }
+
+        .service-card:hover {
+            border-color: rgba(70,230,165,.35);
+            transform: translateY(-5px);
+            background: rgba(70,230,165,.035);
+        }
+
+        .service-card img {
+            width: 105px;
+            height: 105px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .services-bottom {
+            text-align: center;
+            margin-top: 45px;
+        }
+
+        .services-bottom p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 22px;
+        }
+
+        /* ==============================
+           ABOUT / GENERAL
+        ============================== */
+
+        .about {
+            background: var(--bg);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .about-visual {
+            min-height: 390px;
+            border-radius: 28px;
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(135deg, rgba(139,114,255,.28), rgba(70,230,165,.08)),
+                url("images/foto.gif") center/cover no-repeat;
+            border: 1px solid var(--border);
+        }
+
+        .about-visual::after {
+            content: "HANZO";
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            font-size: clamp(55px, 8vw, 95px);
+            font-weight: 900;
+            letter-spacing: -5px;
+            color: rgba(255,255,255,.12);
+            text-shadow: 0 5px 40px rgba(0,0,0,.3);
+        }
+
+        .about-content .section-title {
+            margin-bottom: 22px;
+        }
+
+        .about-content > p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 2;
+            margin-bottom: 18px;
+        }
+
+        .about-list {
+            list-style: none;
+            margin-top: 28px;
+            display: grid;
+            gap: 15px;
+        }
+
+        .about-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #d5d8e3;
+        }
+
+        .check {
+            width: 23px;
+            height: 23px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: rgba(70,230,165,.12);
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        /* ==============================
+           COMMUNITY CTA
+        ============================== */
+
+        .community {
+            padding: 40px 0 110px;
+            background: var(--bg);
+        }
+
+        .community-box {
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 75px 30px;
+            border-radius: 28px;
+            border: 1px solid rgba(139,114,255,.25);
+            background:
+                radial-gradient(ellipse at 50% 120%, rgba(70,230,165,.13), transparent 55%),
+                linear-gradient(135deg, #17182b, #111522);
+        }
+
+        .community-box::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            top: -220px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            filter: blur(110px);
+            opacity: .2;
+        }
+
+        .community-box h2 {
+            font-size: clamp(30px, 5vw, 48px);
+            letter-spacing: -2px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 17px;
+            position: relative;
+        }
+
+        .community-box p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .community-box .btn {
+            position: relative;
+        }
+
+        /* ==============================
+           TOP.GG
+        ============================== */
+
+        .external {
+            background: var(--bg-secondary);
+        }
+
+        .external-card {
+            max-width: 850px;
+            margin: 50px auto 0;
+            padding: 35px;
+            display: flex;
+            align-items: center;
+            gap: 35px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            transition: .3s;
+        }
+
+        .external-card:hover {
+            border-color: rgba(139,114,255,.4);
+            transform: translateY(-5px);
+        }
+
+        .external-card img {
+            width: 125px;
+            height: 125px;
+            object-fit: contain;
+            border-radius: 18px;
+        }
+
+        .external-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .external-card p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        .footer {
+            background: #07090f;
+            border-top: 1px solid var(--border);
+            padding: 65px 0 25px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr);
+            gap: 45px;
+            padding-bottom: 50px;
+        }
+
+        .footer-brand p {
+            color: var(--muted);
+            font-size: 12px;
+            max-width: 260px;
+            margin-top: 17px;
+            line-height: 1.9;
+        }
+
+        .footer-column h3 {
+            color: white;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+
+        .footer-column a {
+            color: var(--muted);
+            font-size: 12px;
+            transition: .2s;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-bottom p {
+            color: #71788b;
+            font-size: 11px;
+        }
+
+        .footer-bottom span {
+            color: var(--primary-light);
+        }
+
+        /* ==============================
+           ANIMATIONS
+        ============================== */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content {
+            animation: fadeUp .8s ease both;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                gap: 18px;
+            }
+
+            .nav-actions .btn {
+                padding: 11px 15px;
+            }
+
+            .feature-grid,
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-grid {
+                gap: 35px;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .container {
+                width: calc(100% - 36px);
+            }
+
+            .section {
+                padding: 80px 0;
+            }
+
+            .navbar {
+                height: 72px;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+                margin-right: 17px;
+            }
+
+            .nav-actions .btn {
+                font-size: 11px;
+                padding: 10px 13px;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 72px;
+                left: 0;
+                width: 100%;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px 22px 22px;
+                background: rgba(9,11,18,.98);
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links li a {
+                display: block;
+                padding: 13px 0;
+            }
+
+            .menu-toggle:checked ~ .nav-links {
+                display: flex;
+            }
+
+            .hero {
+                min-height: 720px;
+                background-position: center;
+            }
+
+            .hero-content {
+                padding-top: 110px;
+            }
+
+            .hero h1 {
+                font-size: clamp(49px, 12vw, 68px);
+                letter-spacing: -3px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .hero-stats {
+                gap: 25px;
+                margin-top: 48px;
+            }
+
+            .hero-stat strong {
+                font-size: 16px;
+            }
+
+            .feature-grid,
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                padding: 27px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-visual {
+                min-height: 270px;
+                order: 2;
+            }
+
+            .external-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 28px;
+            }
+
+            .external-card img {
+                width: 105px;
+                height: 105px;
+            }
+
+            .community-box {
+                padding: 55px 20px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 35px 20px;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .logo {
+                font-size: 17px;
+            }
+
+            .nav-actions .btn {
+                font-size: 10px;
+                padding: 9px;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-brand {
+                grid-column: auto;
+            }
+        }
+    </style>
 </head>
+
 <body>
-   <header class="header" >
-    <div class="menu container" >
-            <a href="https://cdn.discordapp.com/attachments/1208806476886450268/1230536742961152040/e5b2b7c72d406588461f9c62a661d900.gif?ex=6633ada5&is=662138a5&hm=cdbad0229727270a64aa6dc9f8e3002cf41c48e2b4d1c6cd8fbe860867479152&" class="logo" >Logo</a>
-            <input type="checkbox" id="menu" />
-            <label for="menu">
-                <img src="images/menu.png" class="menu-icono" alt="">
+
+    <!-- NAVIGATION -->
+
+    <header class="header">
+        <nav class="navbar container">
+
+            <a href="#inicio" class="logo">
+                <div class="logo-icon">
+                    <img src="images/foto.gif" alt="Hanzo">
+                </div>
+                Hanzo<span>.</span>
+            </a>
+
+            <input type="checkbox" id="menu" class="menu-toggle">
+
+            <label for="menu" class="menu-button" aria-label="Abrir menú">
+                ☰
             </label>
-            <nav class="navbar">
-                <ul>
-                    <li><a href="index.html">Inicio</a> </li>
-                    <li><a href="https://discord.com/oauth2/authorize?client_id=1210651462753845299&scope=bot&permissions=1099511627775">Servicios</a> </li>
-                    <li><a href="https://top.gg/bot/1210651462753845299">Top.gg</a> </li>
-                    <li><a href="https://linktr.ee/SaDuxX">Contacto</a> </li>
-                </ul>
-            </nav>
-    </div>
-    <div class="header-content container">
-        <h1>Hanzo's Web</h1>
-        <p>
-            Página web oficial del Bot Hanzo. Desliza hacia abajo para más información.
-        </p>
-        <a href="https://dsc.gg/hanzo" class="btn-1">Hanzo's Support</a>
-        <div>
-   </header>
-   <section class="hanzo">
-    <div class="hanzo-content container">
-        <h2>Los Servicios de Hanzo</h2>
-        <p class="text-p" >
-            Aquí te enseñamos unos cuántos servicios que ofrece Hanzo para todos vosotros. 
-        </p>
-        <div class="hanzo-group">
-            <div class="hanzo-1">
-                <img src="images/automod.png" alt="">
-                <h3>/automod</h3>
-                <p>
-                    Un sistema de automoderación para que cuándo tú estés durmiendo, Hanzo se encargue de mantener tu servidor limpio.   
-                </p>
-            </div>
-            <div class="hanzo-1">
-                <img src="images/premium.png" alt="">
-                <h3>/premium</h3>
-                <p>
-                    Un sistema premium para todos aquellos que quieran desbloquear ciertos comandos.   
-                </p>
-            </div>
-            <div class="hanzo-1">
-                <img src="images/games.png" alt="">
-                <h3>/games</h3>
-                <p>
-                    Un sistema de juegos para que tus amigos y tú os podáis divertir en Discord.   
-                </p>
-            </div>
-        </div>
-        <a href="https://discord.com/oauth2/authorize?client_id=1210651462753845299&scope=bot&permissions=1099511627775" class="btn-1">PROBAR COMANDOS</a>
 
-    </div>
-
-   </section>
-
-   <main class="services">
-
-      <div class="services-content container">
-        <h2>Hanzo's Servicios</h2>
-
-        <div class="services-group">
-
-            <div class="services">
-                <h3>Sistema de Tickets</h3>
-
-                <img src="images/tickets.png" alt="">
-            </div>
-            <div class="services-2">
-                <h3>Sistemad de Música</h3>
-                <img src="images/musica.png" alt="">
-            </div>
-            <div class="services-3">
-                <h3>Sistema de Conteo</h3>
-                <img src="images/contar.png" alt="">
-            </div>
-
-        </div>
-        <p>
-            Hanzo no solamente cuenta con esto, descubre qué utilidades tiene añadiéndolo a tu servidor.
-        </p>
-      </div>
-   </main>
-
-
-   <section class="general">
-
-
-    <div class="general-1">
-        <h2>GENERAL</h2>
-        <p>
-            ¡Un Bot todoterreno que hace malabarismos con tareas de moderación, 
-            entretenimiento y mucho más! Desde mantener el orden hasta proporcionar.
-        </p>
-    </div>
-    <div class="general-2"></div>
-   </section>
-
-   <section class="general">
-    <div class="general-3"></div>
-    <div class="general-1">
-        <h2>general</h2>
-        <p>
-            Imagina un Bot con habilidades ilimitadas: desde moderación efectiva y gestión de roles hasta juegos 
-            interactivos y herramientas de productividad. Este Bot multifuncional no solo mantiene tu servidor seguro 
-            y organizado, sino que también ofrece una amplia gama de opciones de entretenimiento y utilidades prácticas. 
-            Con comandos intuitivos y una interfaz amigable, es la elección ideal para comunidades que buscan simplificar 
-            la gestión y mejorar la experiencia de los usuarios. Descubre todo lo que este Bot puede hacer por ti y únete 
-            a la revolución en tu servidor.
-        </p>
-    </div>
-   </section>
-
-   <section class="blog container">
-
-    <h2>Externos</h2>
-    <p>Sitios externos en los que aparece Hanzo</p>
-
-    <div class="blog-content">
-         <div class="blog-1">
-            <img src="images/top.gg.webp" alt="">
-            <h3>Top.gg</h3>
-            <p>
-                ¡Excelente noticia para los amantes de Discord y los juegos! Ahora, puedes ejercer tu poder de voto en Top.gg 
-                y respaldar a Hanzo, el bot que añade una chispa de diversión a tus servidores. Con su amplio abanico de comandos, 
-                desde administrativos hasta juegos, Hanzo se ha convertido en un indispensable para muchas comunidades. Desde moderar 
-                conversaciones hasta entretener a los miembros con sus minijuegos, este bot ha ganado el corazón de muchos. Ahora, tienes 
-                la oportunidad de mostrar tu aprecio y reconocimiento votando por él en Top.gg. Cada voto cuenta y puede ayudar a Hanzo a 
-                llegar a nuevas alturas y a seguir mejorando para brindarte la mejor experiencia posible en Discord. ¡No esperes más y haz 
-                oír tu voz votando por Hanzo hoy mismo!
-                </p>
-         </div>
- 
-    </div>
-
-    <a href="https://top.gg/bot/1210651462753845299" class="btn-1" >Top.gg</a>
-
-   </section>
-
-   <footer class="footer">
-    <div class="footer-content container">
-        <div class="link">
-            <h3>> SOPORTE</h3>
-            <ul>
-                 <li><a href="https://dsc.gg/hanzo">Servidor de soporte</a></li>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#funciones">Funciones</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#about">Sobre Hanzo</a></li>
+                <li><a href="#externos">Top.gg</a></li>
             </ul>
-        </div>
-        <div class="link">
-            <h3>> Top.gg</h3>
-            <ul>
-                 <li><a href="https://top.gg/bot/1210651462753845299">Vota a Hanzo</a></li>
-            </ul>
-        </div>
-        <div class="link">
-            <h3>> PROBAR COMANDOS</h3>
-            <ul>
-                 <li><a href="https://discord.com/oauth2/authorize?client_id=1210651462753845299&scope=bot&permissions=1099511627775">Invita a Hanzo</a></li>
-            </ul>
-        </div>
-        <div class="link">
-            <h3>> CONTACTO</h3>
-            <ul>
-                 <li><a href="https://linktr.ee/SaDuxX">Desarrollador</a></li>
-            </ul>
-        </div>
-    </div>
-   </footer>
+
+            <div class="nav-actions">
+                <a href="https://dsc.gg/hanzo" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    Discord ↗
+                </a>
+            </div>
+
+        </nav>
+    </header>
 
 
+    <!-- HERO -->
+
+    <main>
+
+        <section class="hero" id="inicio">
+
+            <div class="container">
+                <div class="hero-content">
+
+                    <div class="hero-badge">
+                        <span></span>
+                        YOUR ALL-IN-ONE DISCORD BOT
+                    </div>
+
+                    <h1>
+                        Your Discord.<br>
+                        <span class="gradient-text">Better.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Conoce Hanzo, el bot multifuncional diseñado para llevar
+                        tu servidor de Discord al siguiente nivel. Moderación,
+                        entretenimiento y herramientas que hacen que todo sea más fácil.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="https://discord.com/oauth2/authorize?client_id=1210651462753845299&scope=bot&permissions=1099511627775"
+                           target="_blank" rel="noopener noreferrer"
+                           class="btn btn-primary">
+                            Añadir a Discord ↗
+                        </a>
+
+                        <a href="https://dsc.gg/hanzo"
+                           target="_blank" rel="noopener noreferrer"
+                           class="btn btn-secondary">
+                            Servidor de soporte →
+                        </a>
+                    </div>
+
+                    <div class="hero-stats">
+
+                        <div class="hero-stat">
+                            <strong>ALL-IN-ONE</strong>
+                            <span>Multifuncional</span>
+                        </div>
+
+                        <div class="hero-stat">
+                            <strong>24/7</strong>
+                            <span>Tu comunidad</span>
+                        </div>
+
+                        <div class="hero-stat">
+                            <strong>DISCORD</strong>
+                            <span>Made for communities</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
 
 
+        <!-- FEATURES -->
+
+        <section class="section features" id="funciones">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="section-label">WHAT WE OFFER</span>
+
+                    <h2 class="section-title">
+                        Todo lo que necesitas.<br>
+                        <span class="gradient-text">En un solo bot.</span>
+                    </h2>
+
+                    <p class="section-description">
+                        Hanzo reúne diferentes herramientas para que puedas
+                        gestionar, personalizar y disfrutar de tu servidor
+                        sin necesidad de utilizar múltiples bots.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+
+                    <article class="feature-card">
+                        <div class="feature-icon">
+                            <img src="images/automod.png" alt="Automoderación">
+                        </div>
+                        <h3>Automoderación</h3>
+                        <p>
+                            Mantén tu comunidad protegida con herramientas
+                            de moderación que ayudan a mantener el orden
+                            incluso cuando no estás conectado.
+                        </p>
+                        <span class="command">/automod</span>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">
+                            <img src="images/premium.png" alt="Premium">
+                        </div>
+                        <h3>Premium</h3>
+                        <p>
+                            Descubre las ventajas y funcionalidades
+                            adicionales disponibles para los usuarios
+                            que quieran disfrutar de una experiencia mejorada.
+                        </p>
+                        <span class="command">/premium</span>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">
+                            <img src="images/games.png" alt="Juegos">
+                        </div>
+                        <h3>Entretenimiento</h3>
+                        <p>
+                            Dale vida a tu servidor con diferentes
+                            comandos y juegos para disfrutar con
+                            tus amigos y toda tu comunidad.
+                        </p>
+                        <span class="command">/games</span>
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SERVICES -->
+
+        <section class="section services-section" id="servicios">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="section-label">MORE THAN A BOT</span>
+
+                    <h2 class="section-title">
+                        Un mundo de <span class="gradient-text">posibilidades.</span>
+                    </h2>
+
+                    <p class="section-description">
+                        Herramientas pensadas para facilitar la administración
+                        de tu servidor y mejorar la experiencia de todos sus miembros.
+                    </p>
+                </div>
+
+                <div class="services-grid">
+
+                    <article class="service-card">
+                        <img src="images/tickets.png" alt="Sistema de tickets">
+                        <h3>Sistema de Tickets</h3>
+                    </article>
+
+                    <article class="service-card">
+                        <img src="images/musica.png" alt="Sistema de música">
+                        <h3>Sistema de Música</h3>
+                    </article>
+
+                    <article class="service-card">
+                        <img src="images/contar.png" alt="Sistema de conteo">
+                        <h3>Sistema de Conteo</h3>
+                    </article>
+
+                </div>
+
+                <div class="services-bottom">
+                    <p>
+                        Y esto es solamente el principio. Descubre todo lo que Hanzo
+                        puede ofrecer a tu comunidad.
+                    </p>
+
+                    <a href="https://discord.com/oauth2/authorize?client_id=1210651462753845299&scope=bot&permissions=1099511627775"
+                       target="_blank" rel="noopener noreferrer"
+                       class="btn btn-primary">
+                        Descubrir Hanzo ↗
+                    </a>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT -->
+
+        <section class="section about" id="about">
+
+            <div class="container about-grid">
+
+                <div class="about-visual" role="img" aria-label="Imagen de Hanzo"></div>
+
+                <div class="about-content">
+
+                    <span class="section-label">ABOUT HANZO</span>
+
+                    <h2 class="section-title">
+                        Mucho más que un simple <span class="gradient-text">bot.</span>
+                    </h2>
+
+                    <p>
+                        Hanzo es un bot multifuncional creado para ofrecer
+                        una experiencia completa en Discord. Combina
+                        herramientas de moderación, gestión y entretenimiento
+                        en un mismo lugar.
+                    </p>
+
+                    <p>
+                        Tanto si administras una pequeña comunidad como si
+                        gestionas un gran servidor, Hanzo está pensado para
+                        ayudarte a mantenerlo organizado y hacer que tus
+                        usuarios disfruten de cada momento.
+                    </p>
+
+                    <ul class="about-list">
+                        <li><span class="check">✓</span> Moderación y seguridad</li>
+                        <li><span class="check">✓</span> Herramientas de administración</li>
+                        <li><span class="check">✓</span> Entretenimiento y juegos</li>
+                        <li><span class="check">✓</span> Diferentes utilidades para tu comunidad</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- COMMUNITY CTA -->
+
+        <section class="community">
+
+            <div class="container">
+
+                <div class="community-box">
+
+                    <span class="section-label">READY TO GET STARTED?</span>
+
+                    <h2>
+                        Tu servidor merece<br>
+                        <span class="gradient-text">algo mejor.</span>
+                    </h2>
+
+                    <p>
+                        Añade Hanzo a tu servidor y descubre todo lo que puede hacer.
+                    </p>
+
+                    <a href="https://discord.com/oauth2/authorize?client_id=1210651462753845299&scope=bot&permissions=1099511627775"
+                       target="_blank" rel="noopener noreferrer"
+                       class="btn btn-primary">
+                        Añadir Hanzo a Discord ↗
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- EXTERNAL PLATFORMS -->
+
+        <section class="section external" id="externos">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">FIND US ONLINE</span>
+
+                    <h2 class="section-title">
+                        Hanzo está en <span class="gradient-text">Top.gg.</span>
+                    </h2>
+
+                    <p class="section-description">
+                        Descubre nuestro perfil, conoce más sobre el bot
+                        y apoya el proyecto con tu voto.
+                    </p>
+
+                </div>
+
+                <div class="external-card">
+
+                    <img src="images/top.gg.webp" alt="Top.gg">
+
+                    <div>
+
+                        <h3>Hanzo en Top.gg</h3>
+
+                        <p>
+                            ¿Te gusta Hanzo? Puedes apoyar el proyecto
+                            visitando nuestro perfil en Top.gg y dejando
+                            tu voto. ¡Cada apoyo cuenta!
+                        </p>
+
+                        <a href="https://top.gg/bot/1210651462753845299"
+                           target="_blank" rel="noopener noreferrer"
+                           class="btn btn-primary">
+                            Visitar Top.gg ↗
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div class="footer-brand">
+
+                    <a href="#inicio" class="logo">
+                        <div class="logo-icon">
+                            <img src="images/foto.gif" alt="Hanzo">
+                        </div>
+                        Hanzo<span>.</span>
+                    </a>
+
+                    <p>
+                        Un bot multifuncional para llevar tu experiencia
+                        en Discord al siguiente nivel.
+                    </p>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Comunidad</h3>
+
+                    <ul>
+                        <li><a href="https://dsc.gg/hanzo" target="_blank" rel="noopener noreferrer">Servidor de soporte</a></li>
+                        <li><a href="https://top.gg/bot/1210651462753845299" target="_blank" rel="noopener noreferrer">Top.gg</a></li>
+                    </ul>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Hanzo</h3>
+
+                    <ul>
+                        <li><a href="#funciones">Funciones</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#about">Sobre nosotros</a></li>
+                    </ul>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Enlaces</h3>
+
+                    <ul>
+                        <li>
+                            <a href="https://discord.com/oauth2/authorize?client_id=1210651462753845299&scope=bot&permissions=1099511627775"
+                               target="_blank" rel="noopener noreferrer">
+                                Invitar a Hanzo
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://linktr.ee/SaDuxX"
+                               target="_blank" rel="noopener noreferrer">
+                                Desarrollador
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                <p>© 2026 Hanzo. Todos los derechos reservados.</p>
+
+                <p>Designed & developed by <span>SaDuxX</span>.</p>
+
+            </div>
+
+        </div>
+
+    </footer>
 
 </body>
 </html>
